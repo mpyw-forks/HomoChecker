@@ -1,5 +1,6 @@
 language: node_js
 node_js: '6'
+sudo: required
 
 cache:
   directories:
@@ -20,12 +21,17 @@ before_install:
 - chmod 600 ~/.ssh/id_rsa
 
 install:
-- npm install
+- sudo add-apt-repository ppa:ondrej/php -y
+- sudo apt-get update
+- sudo apt-get install php7.0
+- curl -sS "https://getcomposer.org/installer" | sudo php -- --install-dir=/usr/local/bin --filename=composer
 
 before_script:
 - git remote add homo $TARGET
 
 script:
+- composer install
+- npm install
 - npm start
 
 after_success:
